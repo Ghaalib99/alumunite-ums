@@ -1,8 +1,10 @@
 Clone repository:
 git clone https://github.com/Ghaalib99/alumunite-ums.git
 
-Install dependencies:
+Navigate into project directory:
 cd alumunite-ums
+
+Install dependencies:
 npm install
 
 Run development server:
