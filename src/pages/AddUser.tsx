@@ -28,6 +28,7 @@ const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
   role: yup.string().required("Role is required"),
   active: yup.boolean(),
+  status: yup.string().default("Active"),
   profilePhoto: yup
     .mixed()
     .test(
@@ -53,9 +54,17 @@ const AddUser = () => {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const onSubmit = (data: any) => {
-    const newUser = { id: Date.now(), ...data };
+    const newUser = {
+      id: Date.now(),
+      ...data,
+      active: data.active ?? false,
+      status: "Active",
+      profilePhoto: photoPreview || "",
+    };
+
     const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
     localStorage.setItem("users", JSON.stringify([...existingUsers, newUser]));
+
     handleAction();
   };
 
@@ -118,10 +127,10 @@ const AddUser = () => {
             <Controller
               control={control}
               name="role"
-              render={({ field }) => (
+              render={({ field: { onChange, onBlur, value, name, ref } }) => (
                 <Select
-                  {...field}
-                  onValueChange={(value) => field.onChange(value)}
+                  onValueChange={(value) => onChange(value)}
+                  value={value}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select role" />
@@ -136,6 +145,7 @@ const AddUser = () => {
                 </Select>
               )}
             />
+
             {errors.role && (
               <p className="text-red-500">{errors.role.message}</p>
             )}
@@ -173,6 +183,7 @@ const AddUser = () => {
             )}
           />
         </div>
+        <Input type="hidden" {...register("status")} />
 
         <Button
           type="submit"

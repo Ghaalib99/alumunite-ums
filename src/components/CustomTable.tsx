@@ -93,6 +93,8 @@ export function TableComponent<T extends { id: number }>({
         {caption && <TableCaption>{caption}</TableCaption>}
         <TableHeader>
           <TableRow className="border-b-[#EAECF0] bg-muted-foreground font-bold">
+            {/* Add S/N Column Header */}
+            <TableHead className="text-center text-card-title">S/N</TableHead>
             {columns.map((col) => (
               <TableHead
                 key={String(col.accessor)}
@@ -114,6 +116,10 @@ export function TableComponent<T extends { id: number }>({
               className="bg-popover border-b-[#EAECF0] border-b-2"
               onClick={() => onRowClick && onRowClick(row.id)}
             >
+              {/* Render S/N value in each row */}
+              <TableCell className="text-center">
+                {(currentPage - 1) * rowsPerPage + rowIndex + 1}
+              </TableCell>
               {columns.map((col) => {
                 const cellValue = row[col.accessor];
                 let cellClass = col.alignRight ? "text-right" : "";
@@ -187,9 +193,7 @@ export function TableComponent<T extends { id: number }>({
         {footerData && (
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={columns.length - 1}>
-                {footerData.label}
-              </TableCell>
+              <TableCell colSpan={columns.length}>{footerData.label}</TableCell>
               <TableCell className="text-right">{footerData.value}</TableCell>
             </TableRow>
           </TableFooter>

@@ -13,10 +13,10 @@ const Sidebar = () => {
       <Button
         variant="ghost"
         size="icon"
-        className="lg:hidden fixed top-4 right-4 z-50 p-2 text-white"
+        className="lg:hidden fixed top-3 right-4 z-50 p-2 text-white"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Menu size={24} />
+        <Menu size={30} />
       </Button>
 
       <div
